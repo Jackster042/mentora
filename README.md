@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🎓 Converso</h1>
+  <h1>🎓 Mentora</h1>
   <p><strong>Real-Time AI Teaching Platform</strong></p>
   <p>An intelligent voice-based learning companion that brings AI tutors to life</p>
   
