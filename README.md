@@ -14,7 +14,7 @@
 
 ## 📖 Overview
 
-**Converso** is a cutting-edge SaaS platform that revolutionizes online learning through real-time voice conversations with AI teaching companions. Built with modern web technologies, it enables users to create personalized AI tutors for various subjects and engage in natural, voice-based learning sessions.
+**Mentora** is a cutting-edge SaaS platform that revolutionizes online learning through real-time voice conversations with AI teaching companions. Built with modern web technologies, it enables users to create personalized AI tutors for various subjects and engage in natural, voice-based learning sessions.
 
 ### ✨ Key Features
 
