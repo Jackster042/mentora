@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Table,
     TableBody,
@@ -10,14 +12,36 @@ import {cn} from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import {getSubjectColor} from "@/lib/utils";
+import { deleteCompanion } from "@/lib/actions/companion.actions";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface CompanionsListProps {
     title: string;
     companions?: Companion[];
     classNames?: string;
+    showRemoveButton?: boolean;
 }
 
-const CompanionList = ({title, companions, classNames}: CompanionsListProps)=> {
+const CompanionList = ({title, companions, classNames, showRemoveButton = false}: CompanionsListProps)=> {
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const router = useRouter();
+  
+  const handleRemove = async (companionId: string) => {
+
+    try {
+      setDeletingId(companionId);
+      await deleteCompanion(companionId);
+      
+  
+      router.refresh();
+    } catch (error) {
+      console.error("Error deleting companion:", error);
+    } finally {
+      setDeletingId(null);
+    }
+  }
+  
     return (
    <article className={cn("companion-list", classNames)}>
        <h2 className={"font-bold text-3xl"}>{title}</h2>
@@ -26,7 +50,8 @@ const CompanionList = ({title, companions, classNames}: CompanionsListProps)=> {
                <TableRow>
                    <TableHead className="text-lg w-2/3">Lessons</TableHead>
                    <TableHead className="text-lg">Subject</TableHead>
-                   <TableHead className="text-lg text-right">Duration</TableHead>
+                   <TableHead className="text-lg">Duration</TableHead>
+                   {showRemoveButton && <TableHead className="text-lg">Actions</TableHead>}
                </TableRow>
            </TableHeader>
            <TableBody>
@@ -69,7 +94,7 @@ const CompanionList = ({title, companions, classNames}: CompanionsListProps)=> {
                        </TableCell>
                        <TableCell>
                            <div className="flex items-center gap-2 w-full">
-                            <p className="text-2xl">{duration} {' '} <span className="max-md:hidden">mins</span></p>
+                           <p className="text-2xl">{duration} {' '} <span className="max-md:hidden">mins</span></p>
                             <Image
                             src="/icons/clock.svg"
                             alt="clock icon"
@@ -79,6 +104,19 @@ const CompanionList = ({title, companions, classNames}: CompanionsListProps)=> {
                             />
                            </div>
                        </TableCell>
+       {showRemoveButton && (
+         <TableCell>
+           <div className="flex items-center gap-2 w-full">
+             <button 
+               onClick={() => handleRemove(id)}
+               disabled={deletingId === id}
+               className="w-full py-2 px-1 cursor-pointer text-sm font-bold rounded-lg bg-destructive text-white text-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-destructive/90 transition-colors"
+             >
+               {deletingId === id ? "Removing..." : "Remove"}
+             </button>
+           </div>
+         </TableCell>
+       )}
                    </TableRow>
                ))}
            </TableBody>

@@ -95,6 +95,7 @@ const ProfilePage = async () => {
                         <CompanionList
                         title="My Companions"
                         companions={companions}
+                        showRemoveButton={true}
                         />
                     </AccordionContent>
                 </AccordionItem>

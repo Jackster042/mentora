@@ -129,7 +129,15 @@ export const getRecentSessions = async (limit = 10) => {
   if (error || !data)
     throw new Error(error?.message || "Failed to get recent sessions");
 
-  return data.map(({ companions }) => companions);
+  // Remove duplicate companions (same companion used in multiple sessions)
+  const uniqueCompanions = new Map();
+  data.forEach(({ companions }) => {
+    if (companions && !uniqueCompanions.has(companions.id)) {
+      uniqueCompanions.set(companions.id, companions);
+    }
+  });
+
+  return Array.from(uniqueCompanions.values());
 };
 
 export const getUserSessions = async (userId: string, limit = 10) => {
@@ -144,7 +152,15 @@ export const getUserSessions = async (userId: string, limit = 10) => {
   if (error || !data)
     throw new Error(error?.message || "Failed to get recent sessions");
 
-  return data.map(({ companions }) => companions);
+  // Remove duplicate companions (same companion used in multiple sessions)
+  const uniqueCompanions = new Map();
+  data.forEach(({ companions }) => {
+    if (companions && !uniqueCompanions.has(companions.id)) {
+      uniqueCompanions.set(companions.id, companions);
+    }
+  });
+
+  return Array.from(uniqueCompanions.values());
 };
 
 export const getUserCompanions = async (userId: string) => {
@@ -222,6 +238,31 @@ export const addBookmark = async (companionId: string, path: string) => {
     return { success: true, data };
   } catch (error) {
     console.error("Error adding bookmark:", error);
+    throw error;
+  }
+};
+
+export const deleteCompanion = async (companionId: string) => {
+  try {
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not authenticated");
+
+    const supabase = createSupabaseClient();
+    
+    // Delete the companion (only if user is the author)
+    const { error } = await supabase
+      .from("companions")
+      .delete()
+      .eq("id", companionId)
+      .eq("author", userId);
+
+    if (error) {
+      throw new Error(error.message || "Failed to delete companion");
+    }
+
+    return { success: true, message: "Companion deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting companion:", error);
     throw error;
   }
 };
