@@ -5,18 +5,30 @@ import { createSupabaseClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export const createCompanion = async (formData: CreateCompanion) => {
-  const { userId: author } = await auth();
-  const supabase = createSupabaseClient();
+    const { userId: author} = await auth()
+    const supabase = createSupabaseClient();
 
-  const { data, error } = await supabase
-    .from("companions")
-    .insert({ ...formData, author })
-    .select();
+    const { data, error } = await supabase.from("companions").insert({...formData, author}).select();
 
-  if (error || !data)
-    throw new Error(error?.message || "Failed to create companion");
+    if(error || !data) throw new Error(error?.message || "Failed to create companion")
 
-  return data[0];
+    return data[0];
+
+}
+
+export const createFromStarter = async (starterData: CreateCompanion) => {
+    const { userId: author } = await auth();
+    const supabase = createSupabaseClient();
+
+    // Create companion from starter template
+    const { data, error } = await supabase
+        .from("companions")
+        .insert({ ...starterData, author })
+        .select();
+
+    if (error || !data) throw new Error(error?.message || "Failed to create companion from starter");
+
+    return data[0];
 };
 
 export const getAllCompanions = async ({

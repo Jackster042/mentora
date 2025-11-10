@@ -3,6 +3,7 @@ import CompanionCard from "@/components/companion/CompanionCard";
 import {getSubjectColor} from "@/lib/utils";
 import SearchInput from "@/components/filters/SearchInput";
 import SubjectFilter from "@/components/filters/SubjectFilter";
+  import { starterCompanions } from "@/constants";
 
 const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
 
@@ -14,8 +15,8 @@ const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
         subject,
         topic
     })
+  
 
-    // console.log("Companions:", companions)
 
     return (
         <main className="min-h-screen">
@@ -28,6 +29,15 @@ const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
             </section>
             <section className="companions-grid">
                 {companions.map((companion) => (
+                    <CompanionCard key={companion.id} {...companion} color={getSubjectColor(companion.subject)} />
+                ))}
+            </section>
+       <section className="flex justify-between gap-4 max-sm:flex-col">
+                <h1>Starter Companions</h1>
+                
+            </section>
+     <section className="companions-grid">
+                {starterCompanions.map((companion) => (
                     <CompanionCard key={companion.id} {...companion} color={getSubjectColor(companion.subject)} />
                 ))}
             </section>

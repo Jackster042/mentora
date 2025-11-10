@@ -363,6 +363,19 @@ body {
   .landing-cta-note {
     @apply text-sm opacity-75;
   }
+
+  /* New User Welcome */
+  .new-user-welcome {
+    @apply mb-8 p-8 bg-gradient-to-r from-primary/5 to-primary/10 rounded-3xl border-2 border-primary/20;
+  }
+
+  /* Empty Sessions State */
+  .empty-sessions {
+    @apply rounded-4xl border border-black px-7 pt-7 pb-10 max-lg:w-full bg-white w-2/3;
+  }
+  .empty-sessions-content {
+    @apply flex flex-col items-center justify-center text-center py-12;
+  }
 }
 
 @layer utilities {

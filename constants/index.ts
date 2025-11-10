@@ -21,6 +21,39 @@ export const voices = {
   female: { casual: "ZIlrSGI4jZqobxRKprJz", formal: "sarah" },
 };
 
+export const starterCompanions = [
+  {
+    id: "starter-1",
+    subject: "maths",
+    name: "Countsy the Number Wizard",
+    topic: "Introduction to Algebra",
+    duration: 30,
+    voice: "female",
+    style: "casual",
+    bookmarked: false,
+  },
+  {
+    id: "starter-2",
+    subject: "coding",
+    name: "Codey the Logic Hacker",
+    topic: "JavaScript Basics for Beginners",
+    duration: 45,
+    voice: "male",
+    style: "casual",
+    bookmarked: false,
+  },
+  {
+    id: "starter-3",
+    subject: "science",
+    name: "Neura the Brainy Explorer",
+    topic: "How the Human Body Works",
+    duration: 30,
+    voice: "female",
+    style: "formal",
+    bookmarked: false,
+  },
+];
+
 export const recentSessions = [
   {
     id: "1",
