@@ -5,13 +5,15 @@ import NavItems from "@/components/shared/NavItems";
 
 import {
     SignInButton,
-    SignUpButton,
     SignedIn,
     SignedOut,
     UserButton,
 } from '@clerk/nextjs'
 
-export const Navbar = () => {
+export const Navbar =  () => {
+  
+
+  
     return (
         <Fragment>
         <nav className="navbar">
@@ -25,8 +27,11 @@ export const Navbar = () => {
                     />
                 </div>
             </Link>
-            <div className={"flex items-center gap-8"}>
-            <NavItems />
+ 
+    <div className={"flex items-center gap-8"}>
+                <SignedIn>
+                    <NavItems />
+                </SignedIn>
                 <SignedOut>
                     <SignInButton>
                         <button className="btn-signin">
@@ -38,6 +43,8 @@ export const Navbar = () => {
                     <UserButton />
                 </SignedIn>
             </div>
+  
+            
         </nav>
         </Fragment>
     )

@@ -9,13 +9,27 @@ import {
 } from "@/lib/actions/companion.actions";
 import Cta from "@/components/companion/CTA";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import Hero from "@/components/landing/Hero";
+import Features from "@/components/landing/Features";
+import HowItWorks from "@/components/landing/HowItWorks";
+import CallToAction from "@/components/landing/CallToAction";
 
 const Page = async () => {
-  // TODO: ADD LANDING PAGE
-  //   const { userId } = await auth();
-  //   if (!userId) redirect("/sign-in");
+  const { userId } = await auth();
 
+  // Show landing page for unauthenticated users
+  if (!userId) {
+    return (
+      <main className="landing-main">
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <CallToAction />
+      </main>
+    );
+  }
+
+  // Show dashboard for authenticated users
   const companions = await getAllCompanions({ limit: 3 });
   const recentSessionCompanions = await getRecentSessions(10);
 
