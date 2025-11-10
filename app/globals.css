@@ -376,6 +376,32 @@ body {
   .empty-sessions-content {
     @apply flex flex-col items-center justify-center text-center py-12;
   }
+
+  /* Footer Styles */
+  .footer {
+    @apply w-full border-t border-border mt-16 bg-background;
+  }
+  .footer-container {
+    @apply mx-auto max-w-[1400px] px-14 py-8 flex items-center justify-between gap-6 max-md:flex-col max-md:text-center max-sm:px-4;
+  }
+  .footer-copyright {
+    @apply text-sm text-muted-foreground;
+  }
+  .footer-links {
+    @apply flex items-center gap-4 max-md:flex-wrap max-md:justify-center;
+  }
+  .footer-link {
+    @apply text-sm text-muted-foreground hover:text-foreground transition-colors;
+  }
+  .footer-divider {
+    @apply text-muted-foreground/50;
+  }
+  .footer-socials {
+    @apply flex items-center gap-3;
+  }
+  .footer-social-icon {
+    @apply flex items-center justify-center w-9 h-9 rounded-full bg-gray-400 hover:bg-primary hover:text-white transition-all duration-300;
+  }
 }
 
 @layer utilities {

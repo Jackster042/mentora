@@ -1,9 +1,10 @@
 import { getAllCompanions } from "@/lib/actions/companion.actions";
 import CompanionCard from "@/components/companion/CompanionCard";
+import StarterCompanionCard from "@/components/companion/StarterCompanionCard";
 import {getSubjectColor} from "@/lib/utils";
 import SearchInput from "@/components/filters/SearchInput";
 import SubjectFilter from "@/components/filters/SubjectFilter";
-  import { starterCompanions } from "@/constants";
+import { starterCompanions } from "@/constants";
 
 const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
 
@@ -38,7 +39,16 @@ const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
             </section>
      <section className="companions-grid">
                 {starterCompanions.map((companion) => (
-                    <CompanionCard key={companion.id} {...companion} color={getSubjectColor(companion.subject)} />
+                    <StarterCompanionCard 
+                        key={companion.id}
+                        name={companion.name}
+                        topic={companion.topic}
+                        subject={companion.subject}
+                        duration={companion.duration}
+                        voice={companion.voice}
+                        style={companion.style}
+                        color={getSubjectColor(companion.subject)}
+                    />
                 ))}
             </section>
         </main>
