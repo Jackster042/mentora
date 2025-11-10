@@ -45,3 +45,7 @@ next-env.d.ts
 .env.sentry-build-plugin
 
 .early.coverage
+
+# Documentation files (exclude all .md except README.md)
+*.md
+!README.md
