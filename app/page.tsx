@@ -34,7 +34,7 @@ const Page = async () => {
     );
   }
 
-  // Show dashboard for authenticated users
+  
   const userCompanions = await getUserCompanions(userId);
   const userSessions = await getUserSessions(userId, 10);
   const isNewUser = userCompanions.length === 0;
