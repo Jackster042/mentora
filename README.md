@@ -32,6 +32,7 @@
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 15 (App Router) with Turbopack
 - **UI Library**: React 19
 - **Language**: TypeScript (Strict Mode)
@@ -40,6 +41,7 @@
 - **Animations**: Lottie React
 
 ### Backend & Services
+
 - **Database**: Supabase (PostgreSQL with Row Level Security)
 - **Authentication**: Clerk (with JWT integration)
 - **Voice AI**: Vapi.ai
@@ -54,11 +56,13 @@
 ## 🏗️ Architecture Highlights
 
 ### Authentication Flow
+
 ```
 User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Database
 ```
 
 ### Voice Session Lifecycle
+
 1. User creates a companion with custom parameters (subject, topic, voice, style)
 2. `configureAssistant()` generates Vapi configuration with GPT-4 system prompt
 3. Real-time voice session starts with bidirectional audio streaming
@@ -66,6 +70,7 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
 5. Session history automatically saved to database on completion
 
 ### Database Schema
+
 - **companions**: Stores AI tutor configurations
 - **session_history**: Tracks all completed learning sessions
 - **bookmarks**: User-saved favorite companions
@@ -75,6 +80,7 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
 ## 🛠️ Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - Supabase account and project
 - Clerk account for authentication
@@ -84,39 +90,42 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Jackster042/LLM_SAAS.git
    cd LLM_SAAS
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
-   
+
    Create a `.env.local` file in the root directory:
+
    ```env
    # Supabase
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   
+
    # Vapi.ai
    NEXT_PUBLIC_VAPI_WEB_TOKEN=your_vapi_token
-   
+
    # Clerk (auto-populated by Clerk CLI or dashboard)
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
    CLERK_SECRET_KEY=your_clerk_secret
-   
+
    # Sentry (optional)
    SENTRY_DSN=your_sentry_dsn
    ```
 
 4. **Set up Supabase database**
-   
+
    Create the following tables in your Supabase project:
-   
+
    ```sql
    -- Companions table
    CREATE TABLE companions (
@@ -130,7 +139,7 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
      author TEXT NOT NULL,
      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
    );
-   
+
    -- Session history table
    CREATE TABLE session_history (
      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -138,7 +147,7 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
      user_id TEXT NOT NULL,
      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
    );
-   
+
    -- Bookmarks table
    CREATE TABLE bookmarks (
      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -148,35 +157,38 @@ User → Clerk Auth → JWT Token → Supabase Client → RLS Policies → Datab
      UNIQUE(companion_id, user_id)
    );
    ```
-   
+
    Enable Row Level Security (RLS) and add appropriate policies.
 
 5. **Run the development server**
+
    ```bash
    npm run dev
    ```
 
 6. **Open your browser**
-   
+
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ---
 
 ## 📜 Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with Turbopack (fast refresh) |
-| `npm run build` | Build optimized production bundle |
-| `npm start` | Start production server |
-| `npm run lint` | Run ESLint for code quality checks |
+| Command         | Description                                            |
+| --------------- | ------------------------------------------------------ |
+| `npm run dev`   | Start development server with Turbopack (fast refresh) |
+| `npm run build` | Build optimized production bundle                      |
+| `npm start`     | Start production server                                |
+| `npm run lint`  | Run ESLint for code quality checks                     |
 
 ---
 
 ## 🎯 Key Implementation Features
 
 ### Server Actions Pattern
+
 All database operations use Next.js Server Actions for type-safe, secure data fetching:
+
 ```typescript
 "use server";
 import { auth } from "@clerk/nextjs/server";
@@ -184,13 +196,15 @@ import { createSupabaseClient } from "@/lib/supabase";
 
 export const createCompanion = async (formData: CreateCompanion) => {
   const { userId: author } = await auth();
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
   // ... database operations with RLS
 };
 ```
 
 ### Dynamic Voice Configuration
+
 Vapi assistant configuration adapts to user preferences:
+
 ```typescript
 const vapiAssistant = {
   voice: { provider: "11labs", voiceId: voices[voice][style] },
@@ -200,7 +214,9 @@ const vapiAssistant = {
 ```
 
 ### Plan-Based Authorization
+
 Clerk's permission system controls feature access:
+
 ```typescript
 if (has({ plan: "pro" })) return true;
 else if (has({ feature: "3_companion_limit" })) limit = 3;

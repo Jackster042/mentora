@@ -5,30 +5,36 @@ import { createSupabaseClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 export const createCompanion = async (formData: CreateCompanion) => {
-    const { userId: author} = await auth()
-    const supabase = createSupabaseClient();
+  const { userId: author } = await auth();
+  const supabase = await createSupabaseClient();
 
-    const { data, error } = await supabase.from("companions").insert({...formData, author}).select();
+  const { data, error } = await supabase
+    .from("companions")
+    .insert({ ...formData, author })
+    .select();
 
-    if(error || !data) throw new Error(error?.message || "Failed to create companion")
+  if (error || !data)
+    throw new Error(error?.message || "Failed to create companion");
 
-    return data[0];
-
-}
+  return data[0];
+};
 
 export const createFromStarter = async (starterData: CreateCompanion) => {
-    const { userId: author } = await auth();
-    const supabase = createSupabaseClient();
+  const { userId: author } = await auth();
+  const supabase = await createSupabaseClient();
 
-    // Create companion from starter template
-    const { data, error } = await supabase
-        .from("companions")
-        .insert({ ...starterData, author })
-        .select();
+  // Create companion from starter template
+  const { data, error } = await supabase
+    .from("companions")
+    .insert({ ...starterData, author })
+    .select();
 
-    if (error || !data) throw new Error(error?.message || "Failed to create companion from starter");
+  if (error || !data)
+    throw new Error(
+      error?.message || "Failed to create companion from starter"
+    );
 
-    return data[0];
+  return data[0];
 };
 
 export const getAllCompanions = async ({
@@ -38,7 +44,7 @@ export const getAllCompanions = async ({
   topic,
 }: GetAllCompanions) => {
   const { userId } = await auth();
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
   let query = supabase.from("companions").select();
 
   if (subject && topic) {
@@ -77,7 +83,7 @@ export const getAllCompanions = async ({
 };
 
 export const getCompanion = async (id: string) => {
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
 
   const { data, error } = await supabase
     .from("companions")
@@ -96,7 +102,7 @@ export const addToSessionHistory = async (companionId: string) => {
     throw new Error("Invalid companion ID: cannot be undefined or empty");
   }
   const { userId } = await auth();
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
 
   // First verify the companion exists
   const { data: companion, error: companionError } = await supabase
@@ -118,13 +124,24 @@ export const addToSessionHistory = async (companionId: string) => {
   return data;
 };
 
+interface Companion {
+  id: string;
+  name?: string;
+  // any other columns from the companions table
+}
+
+interface SessionRow {
+  companions: Companion | null;
+}
+
 export const getRecentSessions = async (limit = 10) => {
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
   const { data, error } = await supabase
     .from("session_history")
     .select(`companions:companion_id (*)`)
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .limit(limit)
+    .overrideTypes<SessionRow[], { merge: false }>();
 
   if (error || !data)
     throw new Error(error?.message || "Failed to get recent sessions");
@@ -141,13 +158,14 @@ export const getRecentSessions = async (limit = 10) => {
 };
 
 export const getUserSessions = async (userId: string, limit = 10) => {
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
   const { data, error } = await supabase
     .from("session_history")
     .select(`companions:companion_id (*)`)
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .limit(limit)
+    .overrideTypes<SessionRow[], { merge: false }>();
 
   if (error || !data)
     throw new Error(error?.message || "Failed to get recent sessions");
@@ -164,7 +182,7 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 };
 
 export const getUserCompanions = async (userId: string) => {
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
   const { data, error } = await supabase
     .from("companions")
     .select()
@@ -178,7 +196,7 @@ export const getUserCompanions = async (userId: string) => {
 
 export const newCompanionPermissions = async () => {
   const { userId, has } = await auth();
-  const supabase = createSupabaseClient();
+  const supabase = await createSupabaseClient();
 
   let limit = 0;
 
@@ -207,7 +225,7 @@ export const addBookmark = async (companionId: string, path: string) => {
     const { userId } = await auth();
     if (!userId) throw new Error("User not authenticated");
 
-    const supabase = createSupabaseClient();
+    const supabase = await createSupabaseClient();
 
     // First check if bookmark already exists
     const { data: existing } = await supabase
@@ -247,8 +265,8 @@ export const deleteCompanion = async (companionId: string) => {
     const { userId } = await auth();
     if (!userId) throw new Error("User not authenticated");
 
-    const supabase = createSupabaseClient();
-    
+    const supabase = await createSupabaseClient();
+
     // Delete the companion (only if user is the author)
     const { error } = await supabase
       .from("companions")
@@ -272,7 +290,7 @@ export const removeBookmark = async (companionId: string, path: string) => {
     const { userId } = await auth();
     if (!userId) throw new Error("User not authenticated");
 
-    const supabase = createSupabaseClient();
+    const supabase = await createSupabaseClient();
     const { error } = await supabase
       .from("bookmarks")
       .delete()
@@ -293,7 +311,7 @@ export const removeBookmark = async (companionId: string, path: string) => {
 
 export const getBookmarkedCompanions = async (userId: string) => {
   try {
-    const supabase = createSupabaseClient();
+    const supabase = await createSupabaseClient();
 
     const { data, error } = await supabase
       .from("bookmarks")

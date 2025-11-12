@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { auth } from "@clerk/nextjs/server";
 
 export const createSupabaseClient = async () => {
-  const { getToken } = auth();
+  const { getToken } = await auth();
   const token = await getToken({ template: "supabase" }); // <- uses Clerk's supabase template
 
   return createClient(
