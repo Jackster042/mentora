@@ -19,12 +19,12 @@ const Footer = () => {
                     <Link href="/privacy" className="footer-link" prefetch={false}>
                         Privacy Policy
                     </Link>
-                    <span className="footer-divider" prefetch={false}>•</span>
-                    <Link href="/terms" className="footer-link">
+                    <span className="footer-divider" >•</span>
+                    <Link href="/terms" className="footer-link" prefetch={false}>
                         Terms of Service
                     </Link>
-                    <span className="footer-divider" prefetch={false}>•</span>
-                    <Link href="/contact" className="footer-link">
+                    <span className="footer-divider" >•</span>
+                    <Link href="/contact" className="footer-link" prefetch={false}>
                         Contact
                     </Link>
                 </div>
