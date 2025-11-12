@@ -181,26 +181,7 @@ export const getUserSessions = async (userId: string, limit = 10) => {
   return Array.from(uniqueCompanions.values());
 };
 
-// export const getUserCompanions = async (userId: string) => {
-//   try {
-//     const supabase = await createSupabaseClient();
 
-//     const { data, error } = await supabase
-//       .from("companions")
-//       .select()
-//       .eq("author", userId);
-
-//     if (error || !data) {
-//       console.error("[getUserCompanions] Supabase error:", error);
-//       throw new Error(error?.message || "Failed to get user companions");
-//     }
-
-//     return data;
-//   } catch (err: any) {
-//     console.error("[getUserCompanions] fetch failed", err);
-//     throw err;
-//   }
-// };
 export const getUserCompanions = async (userId: string) => {
   try {
     const supabase = await createSupabaseClient();
