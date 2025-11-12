@@ -202,17 +202,19 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 //   }
 // };
 export const getUserCompanions = async (userId: string) => {
-  const supabase = await createSupabaseClient();
-  const { data, error } = await supabase
-    .from("companions")
-    .select()
-    .eq("author", userId);
+  try {
+    const supabase = await createSupabaseClient();
+    const { data, error } = await supabase
+      .from("companions")
+      .select()
+      .eq("author", userId);
 
-  if (error) {
-    throw new Error(`Supabase error: ${error.message}`);
+    if (error) throw error;
+    return data ?? [];
+  } catch (e) {
+    console.error("[getUserCompanions]", e);
+    return [];
   }
-
-  return data ?? [];
 };
 
 export const newCompanionPermissions = async () => {
