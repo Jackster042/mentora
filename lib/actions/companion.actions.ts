@@ -182,16 +182,24 @@ export const getUserSessions = async (userId: string, limit = 10) => {
 };
 
 export const getUserCompanions = async (userId: string) => {
-  const supabase = await createSupabaseClient();
-  const { data, error } = await supabase
-    .from("companions")
-    .select()
-    .eq("author", userId);
+  try {
+    const supabase = await createSupabaseClient();
 
-  if (error || !data)
-    throw new Error(error?.message || "Failed to get recent sessions");
+    const { data, error } = await supabase
+      .from("companions")
+      .select()
+      .eq("author", userId);
 
-  return data;
+    if (error || !data) {
+      console.error("[getUserCompanions] Supabase error:", error);
+      throw new Error(error?.message || "Failed to get user companions");
+    }
+
+    return data;
+  } catch (err: any) {
+    console.error("[getUserCompanions] fetch failed", err);
+    throw err;
+  }
 };
 
 export const newCompanionPermissions = async () => {
