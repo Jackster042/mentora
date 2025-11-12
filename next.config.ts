@@ -1,20 +1,44 @@
-import {withSentryConfig} from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    typescript: {
-        ignoreBuildErrors: true,
-    },
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
-    images: {
-        remotePatterns: [
-            {
-                hostname: "img.clerk.com"
-            }
-        ]
-    }
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "img.clerk.com",
+      },
+    ],
+  },
+  
+ 
+  async headers() {
+    return [
+      {
+      
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "https://www.mentora-edu.xyz",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET,OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {
