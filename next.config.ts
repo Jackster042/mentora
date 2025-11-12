@@ -17,36 +17,48 @@ const nextConfig: NextConfig = {
   },
   
     
-    async redirects() {
+async redirects() {
   return [
+    // Force www → root domain
+    {
+      source: '/:path*',
+      has: [{ type: 'host', value: 'www.mentora-edu.xyz' }],
+      destination: 'https://mentora-edu.xyz/:path*',
+      permanent: true,
+    },
+    // Disable extra pages
     { source: '/privacy', destination: '/', permanent: false },
     { source: '/terms', destination: '/', permanent: false },
     { source: '/contact', destination: '/', permanent: false },
   ];
 },
+    
+    async headers() {
+  return [];
+},
  
-  async headers() {
-    return [
-      {
-      
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Access-Control-Allow-Origin",
-            value: "https://mentora-edu.xyz",
-          },
-          {
-            key: "Access-Control-Allow-Methods",
-            value: "GET,OPTIONS",
-          },
-          {
-            key: "Access-Control-Allow-Headers",
-            value: "Content-Type, Authorization",
-          },
-        ],
-      },
-    ];
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //     
+  //       source: "/(.*)",
+  //       headers: [
+  //         {
+  //           key: "Access-Control-Allow-Origin",
+  //           value: "https://mentora-edu.xyz",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Methods",
+  //           value: "GET,OPTIONS",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Headers",
+  //           value: "Content-Type, Authorization",
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 };
 
 export default withSentryConfig(nextConfig, {
