@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
     ],
   },
   
+    
+    async redirects() {
+  return [
+    { source: '/privacy', destination: '/', permanent: false },
+    { source: '/terms', destination: '/', permanent: false },
+    { source: '/contact', destination: '/', permanent: false },
+  ];
+},
  
   async headers() {
     return [
