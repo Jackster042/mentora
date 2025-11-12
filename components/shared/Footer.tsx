@@ -16,14 +16,14 @@ const Footer = () => {
 
                 {/* Center - Links */}
                 <div className="footer-links">
-                    <Link href="/privacy" className="footer-link">
+                    <Link href="/privacy" className="footer-link" prefetch={false}>
                         Privacy Policy
                     </Link>
-                    <span className="footer-divider">•</span>
+                    <span className="footer-divider" prefetch={false}>•</span>
                     <Link href="/terms" className="footer-link">
                         Terms of Service
                     </Link>
-                    <span className="footer-divider">•</span>
+                    <span className="footer-divider" prefetch={false}>•</span>
                     <Link href="/contact" className="footer-link">
                         Contact
                     </Link>
