@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://www.mentora-edu.xyz",
+            value: "https://mentora-edu.xyz",
           },
           {
             key: "Access-Control-Allow-Methods",
