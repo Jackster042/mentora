@@ -17,7 +17,6 @@ import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import HowItWorks from "@/components/landing/HowItWorks";
 import CallToAction from "@/components/landing/CallToAction";
-import { DemoBanner } from "@/components/shared/DemoBanner";
 import { starterCompanions } from "@/constants";
 
 const Page = async () => {
@@ -26,15 +25,12 @@ const Page = async () => {
   // Show landing page for unauthenticated users
   if (!userId) {
     return (
-      <>
-        <DemoBanner />
-        <main className="landing-main">
-          <Hero />
-          <Features />
-          <HowItWorks />
-          <CallToAction />
-        </main>
-      </>
+      <main className="landing-main">
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <CallToAction />
+      </main>
     );
   }
 
