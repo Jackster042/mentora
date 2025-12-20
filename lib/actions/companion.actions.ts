@@ -198,12 +198,110 @@ export const getUserCompanions = async (userId: string) => {
   }
 };
 
+/**
+ * Get user's demo usage statistics
+ * Returns companion count and session count per companion
+ */
+export const getDemoUsageStats = async (userId: string) => {
+  const supabase = await createSupabaseClient();
+
+  // Get total companions created by user
+  const { data: companions, error: companionError } = await supabase
+    .from("companions")
+    .select("id")
+    .eq("author", userId);
+
+  if (companionError) {
+    console.error("[getDemoUsageStats]", companionError);
+    return { companionsUsed: 0, sessionsPerCompanion: {}, totalSessions: 0 };
+  }
+
+  const companionCount = companions?.length || 0;
+
+  // Get session count per companion
+  const { data: sessions, error: sessionError } = await supabase
+    .from("session_history")
+    .select("companion_id")
+    .eq("user_id", userId);
+
+  if (sessionError) {
+    console.error("[getDemoUsageStats]", sessionError);
+    return { companionsUsed: companionCount, sessionsPerCompanion: {}, totalSessions: 0 };
+  }
+
+  // Count sessions per companion
+  const sessionsPerCompanion: Record<string, number> = {};
+  sessions?.forEach((session) => {
+    const compId = session.companion_id;
+    sessionsPerCompanion[compId] = (sessionsPerCompanion[compId] || 0) + 1;
+  });
+
+  const totalSessions = sessions?.length || 0;
+
+  return {
+    companionsUsed: companionCount,
+    sessionsPerCompanion,
+    totalSessions,
+    maxCompanions: 3,
+    maxSessionsPerCompanion: 3,
+  };
+};
+
+/**
+ * Check if user can start a new session with a companion in demo mode
+ */
+export const canStartDemoSession = async (companionId: string, userId: string) => {
+  // If not in demo mode, allow unlimited sessions
+  if (process.env.NEXT_PUBLIC_DEMO_MODE !== "true") {
+    return { allowed: true, sessionsUsed: 0, maxSessions: Infinity };
+  }
+
+  const supabase = await createSupabaseClient();
+
+  // Count sessions for this specific companion
+  const { data: sessions, error } = await supabase
+    .from("session_history")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("companion_id", companionId);
+
+  if (error) {
+    console.error("[canStartDemoSession]", error);
+    return { allowed: true, sessionsUsed: 0, maxSessions: 3 }; // Default to allowing
+  }
+
+  const sessionCount = sessions?.length || 0;
+  const maxSessions = 3;
+
+  return {
+    allowed: sessionCount < maxSessions,
+    sessionsUsed: sessionCount,
+    maxSessions,
+  };
+};
+
 export const newCompanionPermissions = async () => {
   const { userId, has } = await auth();
   const supabase = await createSupabaseClient();
 
   let limit = 0;
 
+  // DEMO MODE: Give all users 3 companions for portfolio demonstration
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    limit = 3;
+    
+    const { data, error } = await supabase
+      .from("companions")
+      .select("id", { count: "exact" })
+      .eq("author", userId);
+
+    if (error) throw new Error(error?.message || "Failed to get companion count");
+
+    const companionCount = data?.length || 0;
+    return companionCount < limit;
+  }
+
+  // PRODUCTION MODE: Check Clerk subscription features
   if (has({ plan: "pro" })) {
     return true;
   } else if (has({ feature: "3_companion_limit" })) {
@@ -219,7 +317,7 @@ export const newCompanionPermissions = async () => {
 
   if (error) throw new Error(error?.message || "Failed to get companion count");
 
-  const companionCount = data?.length;
+  const companionCount = data?.length || 0;
 
   return companionCount < limit;
 };
