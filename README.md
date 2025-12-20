@@ -292,15 +292,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🔗 Links
-
-- **Live Demo**: [Coming Soon]
-- **Repository**: [GitHub](https://github.com/Jackster042/LLM_SAAS)
-- **Issues**: [Report Bug](https://github.com/Jackster042/LLM_SAAS/issues)
-- **Feature Requests**: [Request Feature](https://github.com/Jackster042/LLM_SAAS/issues)
-
----
-
 <div align="center">
   <p>Built with ❤️ by <a href="https://github.com/Jackster042">Jackster042</a></p>
   <p>⭐ Star this repo if you find it helpful!</p>
