@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Documentation files
 docs/
+
+# Skills/abilities data
+skills/
