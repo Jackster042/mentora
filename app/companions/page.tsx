@@ -16,8 +16,6 @@ const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
         subject,
         topic
     })
-  
-
 
     return (
         <main className="min-h-screen">
@@ -28,16 +26,23 @@ const CompanionsLibrary = async ({ searchParams} : SearchParams) => {
                      <SubjectFilter />
                  </div>
             </section>
-            <section className="companions-grid">
+            
+            <section className="companions-grid mt-6">
                 {companions.map((companion) => (
                     <CompanionCard key={companion.id} {...companion} color={getSubjectColor(companion.subject)} />
                 ))}
             </section>
-       <section className="flex justify-between gap-4 max-sm:flex-col">
+
+            {/* Decorative divider */}
+            <div className="deco-divider">
+                <span className="deco-diamond" />
+            </div>
+
+            <section className="flex justify-between gap-4 max-sm:flex-col">
                 <h1>Starter Companions</h1>
-                
             </section>
-     <section className="companions-grid">
+            
+            <section className="companions-grid mt-4">
                 {starterCompanions.map((companion) => (
                     <StarterCompanionCard 
                         key={companion.id}

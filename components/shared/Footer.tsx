@@ -8,6 +8,11 @@ const Footer = () => {
 
     return (
         <footer className="footer">
+            {/* Art-deco divider */}
+            <div className="deco-divider max-w-[1400px] mx-auto px-14 max-sm:px-4" style={{ padding: '0' }}>
+                <span className="deco-diamond" />
+            </div>
+            
             <div className="footer-container">
                 {/* Left side - Copyright */}
                 <div className="footer-copyright">
@@ -19,11 +24,11 @@ const Footer = () => {
                     <Link href="/privacy" className="footer-link" prefetch={false}>
                         Privacy Policy
                     </Link>
-                    <span className="footer-divider" >•</span>
+                    <span className="footer-divider">&#x25C6;</span>
                     <Link href="/terms" className="footer-link" prefetch={false}>
                         Terms of Service
                     </Link>
-                    <span className="footer-divider" >•</span>
+                    <span className="footer-divider">&#x25C6;</span>
                     <Link href="/contact" className="footer-link" prefetch={false}>
                         Contact
                     </Link>
@@ -43,8 +48,9 @@ const Footer = () => {
                             <Image
                                 src={icon}
                                 alt={title}
-                                width={20}
-                                height={20}
+                                width={18}
+                                height={18}
+                                className="brightness-200 opacity-70"
                             />
                         </a>
                     ))}

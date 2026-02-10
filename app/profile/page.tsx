@@ -12,7 +12,6 @@ import {redirect} from "next/navigation";
 import {getUserCompanions, getUserSessions, getBookmarkedCompanions} from "@/lib/actions/companion.actions";
 import Image from "next/image";
 import CompanionList from "@/components/companion/CompanionList";
-import Footer from "@/components/shared/Footer";
 
 const ProfilePage = async () => {
 
@@ -26,58 +25,81 @@ const ProfilePage = async () => {
     return (
         <main className="min-lg:w-3/4 min-h-[calc(100vh-200px)]">
           <section className="flex items-center justify-between gap-4 max-sm:flex-col">
-              {/*left side*/}
+              {/* Left side */}
               <div className="flex items-center gap-4">
-
-            <Image
-            src={user.imageUrl}
-            alt={user.firstName!}
-            width={110}
-            height={110}
-            className="rounded-lg border border-gray-200 dark:border-gray-700"
-            />
-              <div className="flex flex-col gap-2">
-                  <h1 className="text-2xl font-bold">
+                <Image
+                    src={user.imageUrl}
+                    alt={user.firstName!}
+                    width={110}
+                    height={110}
+                    className="rounded-xl"
+                    style={{ border: '1px solid var(--border-subtle)' }}
+                />
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-2xl font-bold">
                         {user.firstName} {user.lastName}
-                  </h1>
-                  <p className="text-sm text-muted-foreground">
-                      {user.emailAddresses[0]?.emailAddress || "No email provided"}
-                  </p>
-              </div>
+                    </h1>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        {user.emailAddresses[0]?.emailAddress || "No email provided"}
+                    </p>
+                </div>
               </div>
 
-          {/*  right side*/}
+              {/* Right side - stats */}
               <div className="flex gap-4">
-                  <div className="border border-black rounded-lg p-3 gap-2 flex flex-col h-fit">
+                  <div 
+                      className="rounded-xl p-4 gap-2 flex flex-col h-fit"
+                      style={{ 
+                          background: 'rgba(23, 23, 26, 0.65)',
+                          border: '1px solid var(--border-subtle)',
+                      }}
+                  >
                     <div className="flex items-center gap-2">
                         <Image
-                        src="/icons/check.svg"
-                        alt="Companion Icon"
-                        width={22}
-                        height={22}
+                            src="/icons/check.svg"
+                            alt="Companion Icon"
+                            width={22}
+                            height={22}
+                            className="brightness-200"
                         />
-                        <p className="text-2xl font-bold">{sessionHistory.length}</p>
+                        <p className="text-2xl font-display font-bold" style={{ color: 'var(--accent-gold)' }}>
+                            {sessionHistory.length}
+                        </p>
                     </div>
-                      <div>Lessons Completed</div>
+                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Lessons Completed</div>
                   </div>
-                  <div className="border border-black rounded-lg p-3 gap-2 flex flex-col h-fit">
+                  <div 
+                      className="rounded-xl p-4 gap-2 flex flex-col h-fit"
+                      style={{ 
+                          background: 'rgba(23, 23, 26, 0.65)',
+                          border: '1px solid var(--border-subtle)',
+                      }}
+                  >
                     <div className="flex items-center gap-2">
                         <Image
-                        src="/icons/cap.svg"
-                        alt="Companion Icon"
-                        width={22}
-                        height={22}
+                            src="/icons/cap.svg"
+                            alt="Companion Icon"
+                            width={22}
+                            height={22}
+                            className="brightness-200"
                         />
-                        <p className="text-2xl font-bold">{companions.length}</p>
+                        <p className="text-2xl font-display font-bold" style={{ color: 'var(--accent-gold)' }}>
+                            {companions.length}
+                        </p>
                     </div>
-                      <div>Companions Completed</div>
+                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Companions Created</div>
                   </div>
               </div>
           </section>
 
+          {/* Decorative divider */}
+          <div className="deco-divider">
+              <span className="deco-diamond" />
+          </div>
+
             <Accordion type="multiple">
                 <AccordionItem value="recent">
-                    <AccordionTrigger className="text-2xl font-bold">
+                    <AccordionTrigger className="text-2xl font-display font-bold">
                         Recent Sessions
                     </AccordionTrigger>
                     <AccordionContent>
@@ -88,7 +110,7 @@ const ProfilePage = async () => {
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="companions">
-                    <AccordionTrigger className="text-2xl font-bold">
+                    <AccordionTrigger className="text-2xl font-display font-bold">
                         My Companions{`${companions.length > 0 ? ` (${companions.length})` : ""}`}
                     </AccordionTrigger>
                     <AccordionContent>
@@ -100,7 +122,7 @@ const ProfilePage = async () => {
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="bookmarks">
-                    <AccordionTrigger className="text-2xl font-bold">
+                    <AccordionTrigger className="text-2xl font-display font-bold">
                         My Bookmarks{`${bookmarkedCompanions.length > 0 ? ` (${bookmarkedCompanions.length})` : ""}`}
                     </AccordionTrigger>
                     <AccordionContent>

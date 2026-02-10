@@ -27,11 +27,15 @@ const HowItWorks = () => {
   return (
     <section className="how-it-works-section">
       <div className="how-header">
+        <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--accent-gold)' }}>
+          Process
+        </p>
         <h2 className="how-title">How It Works</h2>
         <p className="how-subtitle">
           Get started with Mentora in four simple steps
         </p>
       </div>
+      
       <div className="steps-container">
         {steps.map((step, index) => (
           <div key={index} className="step-card">

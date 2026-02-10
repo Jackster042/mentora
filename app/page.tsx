@@ -48,10 +48,12 @@ const Page = async () => {
     <main>
       {isNewUser && (
         <div className="new-user-welcome">
-          <h1 className="text-4xl font-bold">Welcome to Mentora! 🎓</h1>
-          <p className="text-lg text-muted-foreground mt-2">
+          <h1 className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            Welcome to Mentora
+          </h1>
+          <p className="text-lg mt-3" style={{ color: 'var(--text-secondary)' }}>
             Start your learning journey with these starter companions, or{" "}
-            <Link href="/companions/new" className="text-primary font-semibold hover:underline">
+            <Link href="/companions/new" className="font-semibold hover:underline" style={{ color: 'var(--accent-gold)' }}>
               create your own custom AI tutor
             </Link>
             .
@@ -59,17 +61,20 @@ const Page = async () => {
         </div>
       )}
       
-      {!isNewUser && <>
-         <h1 className="text-4xl font-bold">Popular Companions! 🎓</h1>
-          <p className="text-lg text-muted-foreground mt-2">
+      {!isNewUser && (
+        <div>
+          <h1 className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            Popular Companions
+          </h1>
+          <p className="text-lg mt-2" style={{ color: 'var(--text-secondary)' }}>
             Continue the learning with some of the most popular companions, or{" "}
-            <Link href="/companions" className="text-primary font-semibold hover:underline">
-              use some of ours best starter companions  
+            <Link href="/companions" className="font-semibold hover:underline" style={{ color: 'var(--accent-gold)' }}>
+              use some of our best starter companions  
             </Link>
             .
           </p>
-        </>
-        }
+        </div>
+      )}
       
       <section className="home-section">
         {isNewUser ? (
@@ -98,7 +103,7 @@ const Page = async () => {
         )}
       </section>
 
-      <section className={"home-section"}>
+      <section className="home-section">
         {userSessions.length > 0 ? (
           <CompanionList
             title="Your Recent Sessions"
@@ -108,9 +113,17 @@ const Page = async () => {
         ) : (
           <div className="empty-sessions">
             <div className="empty-sessions-content">
-              <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-2xl font-bold mb-2">No Sessions Yet</h3>
-              <p className="text-muted-foreground mb-6">
+              <div 
+                className="text-5xl mb-6 w-20 h-20 rounded-full flex items-center justify-center"
+                style={{ 
+                  background: 'rgba(212, 168, 83, 0.1)',
+                  border: '1px solid rgba(212, 168, 83, 0.2)',
+                }}
+              >
+                🎯
+              </div>
+              <h3 className="text-2xl font-display font-bold mb-2" style={{ color: 'var(--text-primary)' }}>No Sessions Yet</h3>
+              <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
                 Start a session with a companion to begin your learning journey!
               </p>
               <Link href="/companions">

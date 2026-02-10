@@ -12,24 +12,23 @@ import {
 
 export const Navbar =  () => {
   
-
-  
     return (
         <Fragment>
         <nav className="navbar">
               <Link href="/" className="group">
-      <div className="flex items-center gap-2.5 cursor-pointer relative">
-        <Image src="/images/logo2.png" alt="Logo" width={30} height={20} />
-        <p className="text-3xl font-semibold ml-4 hidden md:block relative">
+      <div className="flex items-center gap-3 cursor-pointer relative">
+        <Image src="/images/logo2.png" alt="Logo" width={30} height={20} className="brightness-110" />
+        <p className="text-2xl font-display font-bold ml-2 hidden md:block relative" style={{ color: 'var(--text-primary)' }}>
           Mentora
           <span
-            className="absolute left-0 bottom-0 w-0 h-[2px] bg-gray-500 transition-all duration-300 ease-out group-hover:w-full"
+            className="absolute left-0 bottom-0 w-0 h-[1px] transition-all duration-400 ease-out group-hover:w-full"
+            style={{ background: 'var(--accent-gold)' }}
           ></span>
         </p>
       </div>
     </Link>
  
-    <div className={"flex items-center gap-8"}>
+    <div className="flex items-center gap-8">
                 <SignedIn>
                     <NavItems />
                 </SignedIn>
@@ -50,5 +49,3 @@ export const Navbar =  () => {
         </Fragment>
     )
 }
-
-

@@ -28,12 +28,9 @@ const CompanionList = ({title, companions, classNames, showRemoveButton = false}
   const router = useRouter();
   
   const handleRemove = async (companionId: string) => {
-
     try {
       setDeletingId(companionId);
       await deleteCompanion(companionId);
-      
-  
       router.refresh();
     } catch (error) {
       console.error("Error deleting companion:", error);
@@ -44,7 +41,7 @@ const CompanionList = ({title, companions, classNames, showRemoveButton = false}
   
     return (
    <article className={cn("companion-list", classNames)}>
-       <h2 className={"font-bold text-3xl"}>{title}</h2>
+       <h2 className="font-display font-bold text-3xl" style={{ color: 'var(--text-primary)' }}>{title}</h2>
        <Table>
            <TableHeader>
                <TableRow>
@@ -55,34 +52,50 @@ const CompanionList = ({title, companions, classNames, showRemoveButton = false}
                </TableRow>
            </TableHeader>
            <TableBody>
-
                {companions?.map(({id, subject, name, topic, duration}) => (
-                   <TableRow key={id} >
+                   <TableRow key={id}>
                      <TableCell>
                          <Link href={`/companions/${id}`}>
-                             <div className={"flex items-center gap-2"}>
-                                <div className="size-[72px] flex items-center justify-center rounded-lg max-md:hidden"
-                                style={{ backgroundColor: getSubjectColor(subject) }}>
+                             <div className="flex items-center gap-3">
+                                <div 
+                                    className="size-[72px] flex items-center justify-center rounded-xl max-md:hidden"
+                                    style={{ 
+                                        backgroundColor: `${getSubjectColor(subject)}15`,
+                                        border: `1px solid ${getSubjectColor(subject)}30`,
+                                    }}
+                                >
                                     <Image
-                                    src={`/icons/${subject}.svg`}
-                                    alt={subject}
-                                    width={35}
-                                    height={35}
+                                        src={`/icons/${subject}.svg`}
+                                        alt={subject}
+                                        width={35}
+                                        height={35}
+                                        className="brightness-110"
                                     />
                                 </div>
-                                 <div className="flex flex-col gap-2">
-                                    <p className="font-bold text-2xl">{name}</p>
-                                     <p className="text-lg">{topic}</p>
+                                 <div className="flex flex-col gap-1">
+                                    <p className="font-display font-bold text-2xl" style={{ color: 'var(--text-primary)' }}>{name}</p>
+                                     <p className="text-base" style={{ color: 'var(--text-secondary)' }}>{topic}</p>
                                  </div>
                              </div>
                          </Link>
                      </TableCell>
                        <TableCell>
-                           <div className="subject-badge w-fit">
+                           <div 
+                               className="subject-badge w-fit"
+                               style={{
+                                   background: `${getSubjectColor(subject)}15`,
+                                   color: getSubjectColor(subject),
+                                   borderColor: `${getSubjectColor(subject)}40`,
+                               }}
+                           >
                                {subject}
                            </div>
-                           <div className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden"
-                           style={{ backgroundColor: getSubjectColor(subject) }}
+                           <div 
+                               className="flex items-center justify-center rounded-lg w-fit p-2 md:hidden"
+                               style={{ 
+                                   backgroundColor: `${getSubjectColor(subject)}15`,
+                                   border: `1px solid ${getSubjectColor(subject)}30`,
+                               }}
                            >
                                <Image
                                    src={`/icons/${subject}.svg`}
@@ -94,13 +107,13 @@ const CompanionList = ({title, companions, classNames, showRemoveButton = false}
                        </TableCell>
                        <TableCell>
                            <div className="flex items-center gap-2 w-full">
-                           <p className="text-2xl">{duration} {' '} <span className="max-md:hidden">mins</span></p>
+                           <p className="text-2xl" style={{ color: 'var(--text-primary)' }}>{duration} {' '} <span className="max-md:hidden">mins</span></p>
                             <Image
                             src="/icons/clock.svg"
                             alt="clock icon"
                             width={14}
                             height={14}
-                            className={"md:hidden"}
+                            className="md:hidden brightness-200 opacity-60"
                             />
                            </div>
                        </TableCell>
@@ -110,7 +123,10 @@ const CompanionList = ({title, companions, classNames, showRemoveButton = false}
              <button 
                onClick={() => handleRemove(id)}
                disabled={deletingId === id}
-               className="w-full py-2 px-1 cursor-pointer text-sm font-bold rounded-lg bg-destructive text-white text-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-destructive/90 transition-colors"
+               className="w-full py-2 px-1 cursor-pointer text-sm font-bold rounded-lg text-white text-center disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+               style={{ 
+                 background: 'var(--destructive)',
+               }}
              >
                {deletingId === id ? "Removing..." : "Remove"}
              </button>

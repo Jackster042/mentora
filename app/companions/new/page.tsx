@@ -22,13 +22,19 @@ const NewCompanion = async () => {
                 <h1>Companion Builder</h1>
 
                 {isDemoMode && demoStats && (
-                    <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+                    <div 
+                        className="rounded-2xl p-4 flex items-center gap-3"
+                        style={{
+                            background: 'rgba(212, 168, 83, 0.08)',
+                            border: '1px solid rgba(212, 168, 83, 0.2)',
+                        }}
+                    >
                         <span className="text-3xl">🎨</span>
                         <div className="flex-1">
-                            <p className="font-semibold text-amber-900">
+                            <p className="font-semibold" style={{ color: 'var(--accent-gold)' }}>
                                 Demo Mode: {demoStats.companionsUsed} / {demoStats.maxCompanions} Companions Created
                             </p>
-                            <p className="text-sm text-amber-700">
+                            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                                 Each companion can be used for up to 3 demo sessions
                             </p>
                         </div>
@@ -40,12 +46,12 @@ const NewCompanion = async () => {
 
             ) : (
                 <article className="companion-limit w-fit">
-                    <Image src="/images/limit.svg" alt="Companion limit reached" width={360} height={230} />
+                    <Image src="/images/limit.svg" alt="Companion limit reached" width={360} height={230} className="brightness-90 opacity-80" />
                     <div className="cta-badge">
                         {isDemoMode ? "Demo Limit Reached" : "Upgrade your plan"}
                     </div>
-                    <h1>You've Reached Your Limit</h1>
-                    <p>
+                    <h1>You&apos;ve Reached Your Limit</h1>
+                    <p style={{ color: 'var(--text-secondary)' }}>
                         {isDemoMode 
                             ? `You've created ${demoStats?.companionsUsed || 0} of ${demoStats?.maxCompanions || 3} demo companions. Explore your existing companions or try ones from the community!`
                             : "You've reached your companion limit. Upgrade to create more companions and access premium features."

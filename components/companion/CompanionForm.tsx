@@ -50,14 +50,12 @@ const CompanionForm = () => {
             topic: "",
             voice: "",
             style: "",
-            duration: 15, // 👈 This works with coerce
-        } as z.infer<typeof formSchema>, // ✅ FORCE the cast here!
+            duration: 15,
+        } as z.infer<typeof formSchema>,
     });
 
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // console.log(values)
-
         const companion = await createCompanion(values)
 
         if(companion) {
@@ -76,9 +74,9 @@ const CompanionForm = () => {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Companion Name</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>Companion Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter companion name" {...field} className={"input"}/>
+                                <Input placeholder="Enter companion name" {...field} className="input rounded-xl"/>
                             </FormControl>
                             <FormDescription>
                                 This is your public display name.
@@ -92,15 +90,15 @@ const CompanionForm = () => {
                     name="subject"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Subject</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>Subject</FormLabel>
                             <FormControl>
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger className="input capitalize">
+                                    <SelectTrigger className="input capitalize rounded-xl">
                                         <SelectValue placeholder="Select a subject" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {subjects.map((subject) => (
-                                            <SelectItem value={subject} key={subject} className={"capitalize"}>
+                                            <SelectItem value={subject} key={subject} className="capitalize">
                                                 {subject}
                                             </SelectItem>
                                         ))}
@@ -116,9 +114,9 @@ const CompanionForm = () => {
                     name="topic"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>What should this companion teach?</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>What should this companion teach?</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Enter the topic you want to learn" {...field} className={"input"}/>
+                                <Textarea placeholder="Enter the topic you want to learn" {...field} className="input rounded-xl"/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -129,10 +127,10 @@ const CompanionForm = () => {
                     name="voice"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Subject</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>Voice</FormLabel>
                             <FormControl>
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger className="input">
+                                    <SelectTrigger className="input rounded-xl">
                                         <SelectValue placeholder="Select a voice" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -150,10 +148,10 @@ const CompanionForm = () => {
                     name="style"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Style</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>Style</FormLabel>
                             <FormControl>
                                 <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                                    <SelectTrigger className="input">
+                                    <SelectTrigger className="input rounded-xl">
                                         <SelectValue placeholder="Select a style" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -171,21 +169,21 @@ const CompanionForm = () => {
                     name="duration"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Estimated session duration in minutes</FormLabel>
+                            <FormLabel style={{ color: 'var(--text-primary)' }}>Estimated session duration in minutes</FormLabel>
                             <FormControl>
                                <Input
-                               type={"number"}
+                               type="number"
                                placeholder="15"
                                {...field}
                                value={field.value as number | string}
-                               className="input"
+                               className="input rounded-xl"
                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="w-full cursor-pointer">Build your companion</Button>
+                <Button type="submit" className="w-full cursor-pointer rounded-xl">Build your companion</Button>
             </form>
         </Form>
     )

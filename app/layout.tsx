@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
 import {Navbar} from "@/components/shared/Navbar";
 import { DemoBanner } from "@/components/shared/DemoBanner";
@@ -8,9 +8,16 @@ import { ClerkProvider} from "@clerk/nextjs";
 import Footer from "@/components/shared/Footer";
 import React from "react";
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const playfair = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-body",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +33,8 @@ export default function RootLayout({
     
   return (
     <html lang="en">
-    <ClerkProvider appearance={{ variables: { colorPrimary: "#fe5933" } }}>
-        <body className={`${bricolage.variable} antialiased`}>
+    <ClerkProvider appearance={{ variables: { colorPrimary: "#D4A853" } }}>
+        <body className={`${playfair.variable} ${outfit.variable} antialiased`}>
          <DemoBanner />
          <Navbar />
             {children}

@@ -37,9 +37,30 @@ const CompanionCard = ({
     };
 
     return (
-        <article className="companion-card" style={{ backgroundColor: color }}>
+        <article 
+            className="companion-card"
+            style={{ 
+                // Use the subject color as the left accent bar
+                '--card-accent': color,
+            } as React.CSSProperties}
+        >
+            {/* Subject color accent bar override */}
+            <div 
+                className="absolute top-0 left-0 w-[3px] h-full rounded-l-2xl"
+                style={{ background: color, opacity: 0.7 }}
+            />
+            
             <div className="flex justify-between items-center">
-                <div className="subject-badge">{subject}</div>
+                <div 
+                    className="subject-badge"
+                    style={{ 
+                        background: `${color}15`,
+                        color: color,
+                        borderColor: `${color}40`,
+                    }}
+                >
+                    {subject}
+                </div>
                 <button className="companion-bookmark" onClick={handleBookmark}>
                     <Image
                         src={
@@ -48,20 +69,22 @@ const CompanionCard = ({
                         alt="bookmark"
                         width={12.5}
                         height={15}
+                        className="brightness-200"
                     />
                 </button>
             </div>
 
-            <h2 className="text-2xl font-bold">{name}</h2>
-            <p className="text-sm">{topic}</p>
+            <h2 className="text-2xl font-display font-bold" style={{ color: 'var(--text-primary)' }}>{name}</h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{topic}</p>
             <div className="flex items-center gap-2">
                 <Image
                     src="/icons/clock.svg"
                     alt="duration"
                     width={13.5}
                     height={13.5}
+                    className="brightness-200 opacity-60"
                 />
-                <p className="text-sm">{duration} minutes</p>
+                <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{duration} minutes</p>
             </div>
 
             <Link href={`/companions/${id}`} className="w-full">
